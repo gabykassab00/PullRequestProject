@@ -16,8 +16,11 @@ class FetchPullRequests extends Command
         $repository = 'woocommerce/woocommerce';
         $baseUrl = "https://api.github.com/search/issues";
 
+
+        $fourteendaysago = now()->subDays(14)->toDateString();
+
         $queries = [
-            '14-days-old'=>"repo:$repository is:pr is:open created:<=14-days",
+            '14-days-old'=>"repo:$repository is:pr is:open created:<=$fourteendaysago",
             "review-required"=>"repo:$reposiroty is:pr is:open review:required",
             "status-success"=>"repo:$repository is:pr is:open status:success",
             "no-reviews" =>"repo:$repository is:pr is:open review:none",
