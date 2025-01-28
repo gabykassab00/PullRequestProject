@@ -39,7 +39,13 @@ class FetchPullRequests extends Command
                 $this->error("failing in fetching data for $filename:{$response->status()}");
                 return;
             }
-            
+
+            $pullrequest = $response->json()['items']??[];
+            $data = array_map(function($parse){
+                return "{$parse['number']},{$parse['title']},{$parse['html_url']}";
+            },$pullrequest);
+            Storage::disk('local')->put("$filename.txt",implode(PHP_EOL,$data));
+            $this->info("the data has been saved to $filename.txt");
         }
     }
 }
