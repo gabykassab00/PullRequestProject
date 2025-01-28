@@ -21,7 +21,7 @@ class FetchPullRequests extends Command
 
         $queries = [
             '14-days-old'=>"repo:$repository is:pr is:open created:<=$fourteendaysago",
-            "review-required"=>"repo:$reposiroty is:pr is:open review:required",
+            "review-required"=>"repo:$repository is:pr is:open review:required",
             "status-success"=>"repo:$repository is:pr is:open status:success",
             "no-reviews" =>"repo:$repository is:pr is:open review:none",
         ];
