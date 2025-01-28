@@ -46,6 +46,8 @@ class FetchPullRequests extends Command
             },$pullrequest);
             Storage::disk('local')->put("$filename.txt",implode(PHP_EOL,$data));
             $this->info("the data has been saved to $filename.txt");
+        }catch(Exception $e){
+            $this->error("error in fetching the data for $filename :{$e->getMessage()}");
         }
     }
 }
