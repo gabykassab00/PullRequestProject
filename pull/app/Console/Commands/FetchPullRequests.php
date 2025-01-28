@@ -28,4 +28,12 @@ class FetchPullRequests extends Command
         }
         $this->info('pull request has been fetched as it should be ');
     }
+
+    private function fetchandSave($baseUrl,$query,$filename){
+        try {
+            $response = HTTP::withOptions([
+                'verify'=>false,
+            ])->get($baseUrl,['q'=>$query]);
+        }
+    }
 }
