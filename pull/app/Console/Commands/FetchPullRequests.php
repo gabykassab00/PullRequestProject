@@ -22,5 +22,10 @@ class FetchPullRequests extends Command
             "status-success"=>"repo:$repository is:pr is:open status:success",
             "no-reviews" =>"repo:$repository is:pr is:open review:none",
         ];
+
+        foreach ($queries as $filename=>$query){
+            $this->fetchandSave($baseUrl,$query,$filename);
+        }
+        $this->info('pull request has been fetched as it should be ');
     }
 }
