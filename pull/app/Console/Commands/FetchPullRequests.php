@@ -34,6 +34,12 @@ class FetchPullRequests extends Command
             $response = HTTP::withOptions([
                 'verify'=>false,
             ])->get($baseUrl,['q'=>$query]);
+
+            if($response->failed()){
+                $this->error("failing in fetching data for $filename:{$response->status()}");
+                return;
+            }
+            
         }
     }
 }
