@@ -94,4 +94,15 @@ class FetchPullRequests extends Command
             $this->error("error while saving the data to google sheets: {$e->getMessage()}");
         }
     }
+
+    private function savingToDatabase($data,$category){
+
+        $model = match ($category) {
+            '14-days-old'=> FourteenDaysOld::class,
+            'review-required'=> ReviewRequired::class,
+            'status-success'=>StatusSuccess::class,
+            'no-reviews' => NoReviews::class,
+        };
+        $this->info("data has been saved successfully")
+    }
 }
