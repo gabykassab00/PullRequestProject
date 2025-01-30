@@ -48,7 +48,9 @@ class FetchPullRequests extends Command
             $data = array_map(function($parse){
                 return [$parse['number'],$parse['title'],$parse['html_url']];
             },$pullrequest);
-            Storage::disk('local')->put("$filename.txt",implode(PHP_EOL,$data));
+
+            $filedata = array_map(fn($row)=>implode(',',$row),$data);
+            Storage::disk('local')->put("$filename.txt",implode(PHP_EOL,$filedata));
             $this->info("the data has been saved to $filename.txt");
 
             if(!empty($data)){
