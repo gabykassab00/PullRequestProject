@@ -10,4 +10,12 @@ return [
     'approval_prompt'=>'force',
     'prompt'=>'consent',
     'developer_key'=>env('GOOGLE_DEVELOPER_KEY',''),
-]
+    'service'=>[
+        'enable'=>env('GOOGLE_SERVICE_ENABLED',false),
+        'file'=>env('GOOGLE_SERVICE_ACCOUNT_JSON_LOCATION',storage_path('credentials.json')),
+
+    ],
+    'config' =>[],
+    'post_spreadsheet_id'=>env('POST_SPREADSHEET_ID'),
+    'post_sheet_id' =>env('POST_SHEET_ID'),
+];
