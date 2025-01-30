@@ -58,7 +58,13 @@ class FetchPullRequests extends Command
         try{
             $speadsheetId = config('google.post_spreadsheet_id');
             $sheetName = str_replace('','_',$category);
-            
+
+            Sheets::spreadsheet($speadsheetId)
+            ->sheet($sheetName)
+            ->range("A1:F")
+            ->append(array_merge([['Pull Request Number',' Pull Request Title','Pull Request Link']],$data));
+
+            $this->info("data saved perfectly in $sheetName");
         }
     }
 }
