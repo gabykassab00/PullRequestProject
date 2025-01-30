@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
+use Revolution\Google\Sheets\Facades\Sheets;
 
 class FetchPullRequests extends Command
 {
@@ -45,7 +46,7 @@ class FetchPullRequests extends Command
 
             $pullrequest = $response->json()['items']??[];
             $data = array_map(function($parse){
-                return "{$parse['number']},{$parse['title']},{$parse['html_url']}";
+                return [$parse['number'],$parse['title'],$parse['html_url']];
             },$pullrequest);
             Storage::disk('local')->put("$filename.txt",implode(PHP_EOL,$data));
             $this->info("the data has been saved to $filename.txt");
@@ -67,7 +68,7 @@ class FetchPullRequests extends Command
 
             Sheets::spreadsheet($speadsheetId)
             ->sheet($sheetName)
-            ->range("A1:F")
+            ->range("A1:C")
             ->append(array_merge([['Pull Request Number',' Pull Request Title','Pull Request Link']],$data));
 
             $this->info("data saved perfectly in $sheetName");
