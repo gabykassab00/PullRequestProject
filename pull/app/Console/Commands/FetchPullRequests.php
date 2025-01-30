@@ -35,7 +35,10 @@ class FetchPullRequests extends Command
 
     private function fetchandSave($baseUrl,$query,$filename){
         try {
-            $response = HTTP::withOptions([
+            $githubToken = env('GITHUB_TOKEN');
+            $response = HTTP::withHeaders([
+                'Authorization' => "token $githubToken", 
+                'Accept' => 'application/vnd.github.v3+json',
                 'verify'=>false,
             ])->get($baseUrl,['q'=>$query]);
 
@@ -66,7 +69,7 @@ class FetchPullRequests extends Command
     private function savingToSheets($data,$category){
         try{
             $speadsheetId = config('google.post_spreadsheet_id');
-            $sheetName = str_replace(' ','_',$category);
+            $sheetName = str_replace([' ','-'],'_',$category);
 
             Sheets::spreadsheet($speadsheetId)
             ->sheet($sheetName)
