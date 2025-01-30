@@ -53,4 +53,12 @@ class FetchPullRequests extends Command
             $this->error("error in fetching the data for $filename :{$e->getMessage()}");
         }
     }
+
+    private function savingToSheets($data,$category){
+        try{
+            $speadsheetId = config('google.post_spreadsheet_id');
+            $sheetName = str_replace('','_',$category);
+            
+        }
+    }
 }
