@@ -32,4 +32,5 @@ composer.json
 composer.lock
 package.json
 .editorconfig
+credentials.json
 
