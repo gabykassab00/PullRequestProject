@@ -65,6 +65,8 @@ class FetchPullRequests extends Command
             ->append(array_merge([['Pull Request Number',' Pull Request Title','Pull Request Link']],$data));
 
             $this->info("data saved perfectly in $sheetName");
+        }catch(Exception $e){
+            $this->error("error while saving the data to google sheets: {$e->getMessage()}");
         }
     }
 }
