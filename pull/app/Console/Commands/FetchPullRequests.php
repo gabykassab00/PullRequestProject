@@ -42,6 +42,14 @@ class FetchPullRequests extends Command
                 'verify'=>false,
             ])->get($baseUrl,['q'=>$query]);
 
+
+            if($response->status() == 403 && $retry < 3 ){
+                $waittime = 2 ** $retry;
+                $this->warn("you have reached the rate limit");
+                sleep($waittime);
+                return $this->fetchandSave($baseUrl,$query,$filename,$retry+1);
+            }
+
             if($response->failed()){
                 $this->error("failing in fetching data for $filename:{$response->status()}");
                 return;
