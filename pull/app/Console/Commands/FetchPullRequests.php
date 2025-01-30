@@ -60,9 +60,13 @@ class FetchPullRequests extends Command
             }
 
             $pullrequest = $response->json()['items']??[];
-            $data = array_map(function($parse){
-                return [$parse['number'],$parse['title'],$parse['html_url']];
-            },$pullrequest);
+            $data = array_map(fn($parse) => [
+                $parse['number'],  
+                $parse['title'] , 
+                $parse['html_url']   
+            ], $pullrequest);
+            
+
 
             $filedata = array_map(fn($row)=>implode(',',$row),$data);
             Storage::disk('local')->put("$filename.txt",implode(PHP_EOL,$filedata));
@@ -103,6 +107,17 @@ class FetchPullRequests extends Command
             'status-success'=>StatusSuccess::class,
             'no-reviews' => NoReviews::class,
         };
-        $this->info("data has been saved successfully")
+
+        foreach ($data as $parse) {
+            $model::updateOrCreate(
+                ['pr_number' => $parse[0]], 
+                [
+                    'title' => $parse[1],  
+                    'url' => $parse[2],    
+                ]
+            );
+        }
+        
+        $this->info("data has been saved successfully");
     }
 }
