@@ -49,6 +49,12 @@ class FetchPullRequests extends Command
             },$pullrequest);
             Storage::disk('local')->put("$filename.txt",implode(PHP_EOL,$data));
             $this->info("the data has been saved to $filename.txt");
+
+            if(!empty($data)){
+                $this->savingToSheets($data,$filename);
+            }else {
+                $this->info("there is no pull request for $filename");
+            }
         }catch(Exception $e){
             $this->error("error in fetching the data for $filename :{$e->getMessage()}");
         }
@@ -57,7 +63,7 @@ class FetchPullRequests extends Command
     private function savingToSheets($data,$category){
         try{
             $speadsheetId = config('google.post_spreadsheet_id');
-            $sheetName = str_replace('','_',$category);
+            $sheetName = str_replace(' ','_',$category);
 
             Sheets::spreadsheet($speadsheetId)
             ->sheet($sheetName)
