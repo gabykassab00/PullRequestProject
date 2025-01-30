@@ -6,6 +6,10 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 use Revolution\Google\Sheets\Facades\Sheets;
+use App\Models\FourteenDaysOld;
+use App\Models\ReviewRequired;  
+use App\Models\StatusSuccess;  
+use App\Models\NoReviews;       
 
 class FetchPullRequests extends Command
 {
@@ -66,6 +70,7 @@ class FetchPullRequests extends Command
 
             if(!empty($data)){
                 $this->savingToSheets($data,$filename);
+                $this->savingToDatabase($data, $filename); 
             }else {
                 $this->info("there is no pull request for $filename");
             }
